@@ -12,7 +12,10 @@ fn child() -> Option<String> {
 }
 
 fn main() {
-    println!("Hello from main(): thread name = {:?}", thread::current().name());
+    println!(
+        "Hello from main(): thread name = {:?}",
+        thread::current().name()
+    );
 
     let handle = thread::spawn(child);
 

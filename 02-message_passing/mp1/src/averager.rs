@@ -5,7 +5,10 @@ pub struct Averager {
 
 impl Averager {
     pub fn new() -> Averager {
-        Averager { count: 0, tree: Vec::new() }
+        Averager {
+            count: 0,
+            tree: Vec::new(),
+        }
     }
 
     pub fn update(&mut self, mut value: f64) {

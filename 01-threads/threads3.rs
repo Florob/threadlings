@@ -32,11 +32,13 @@ fn calculate_mandlebrot_slice(start: usize, end: usize) -> Vec<[bool; WIDTH]> {
 }
 
 fn main() {
-    let threads: Vec<_> = (0..THREADS).map(|i| {
-        thread::spawn(|| {
-            calculate_mandlebrot_slice(i * HEIGHT / THREADS, (i + 1) * HEIGHT / THREADS)
+    let threads: Vec<_> = (0..THREADS)
+        .map(|i| {
+            thread::spawn(|| {
+                calculate_mandlebrot_slice(i * HEIGHT / THREADS, (i + 1) * HEIGHT / THREADS)
+            })
         })
-    }).collect();
+        .collect();
 
     for thread in threads {
         let slice = ...;

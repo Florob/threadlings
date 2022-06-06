@@ -2,11 +2,11 @@
 // Make this compile
 // Scroll down for hints
 
+use rand::Rng;
 use std::io::{self, Write};
 use std::sync::mpsc;
-use std::time::{Duration, Instant};
 use std::thread;
-use rand::Rng;
+use std::time::{Duration, Instant};
 
 mod averager;
 use averager::Averager;
@@ -34,7 +34,10 @@ fn throw_thread(sender: mpsc::Sender<f64>) {
 
     loop {
         let inside = throw_darts(&mut rng, THROWS);
-        if sender.send(4.0 * f64::from(inside) / f64::from(THROWS)).is_err() {
+        if sender
+            .send(4.0 * f64::from(inside) / f64::from(THROWS))
+            .is_err()
+        {
             // Receiver disappeared, stop computing
             return;
         }

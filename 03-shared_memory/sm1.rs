@@ -15,18 +15,22 @@ fn main() {
 
     let pi = 0f64;
 
-    let handles: Vec<_> = (0..NUM_THREADS).map(|i| {
-        let lower: u64 = THREAD_STEPS * i;
-        let upper: u64 = THREAD_STEPS * (i+1);
-        thread::spawn(|| {
-            for j in lower..upper {
-                let x: f64 = (j as f64 + 0.5) * STEP;
-                pi += 4.0/(1.0 + x*x) * STEP;
-            }
+    let handles: Vec<_> = (0..NUM_THREADS)
+        .map(|i| {
+            let lower: u64 = THREAD_STEPS * i;
+            let upper: u64 = THREAD_STEPS * (i + 1);
+            thread::spawn(|| {
+                for j in lower..upper {
+                    let x: f64 = (j as f64 + 0.5) * STEP;
+                    pi += 4.0 / (1.0 + x * x) * STEP;
+                }
+            })
         })
-    }).collect();
+        .collect();
 
-    for h in handles { h.join().unwrap(); }
+    for h in handles {
+        h.join().unwrap();
+    }
 
     println!("Pi = {:.10}", pi);
 }

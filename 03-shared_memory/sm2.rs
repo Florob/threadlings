@@ -11,16 +11,20 @@ const INCREMENTS: u32 = 1_000_000;
 fn main() {
     let counter = Arc::new(0u32);
 
-    let handles: Vec<_> = (0..NUM_THREADS).map(|_| {
-        let thread_counter = counter.clone();
-        thread::spawn(move || {
-            for _ in 0..INCREMENTS {
-                *thread_counter += 1;
-            }
+    let handles: Vec<_> = (0..NUM_THREADS)
+        .map(|_| {
+            let thread_counter = counter.clone();
+            thread::spawn(move || {
+                for _ in 0..INCREMENTS {
+                    *thread_counter += 1;
+                }
+            })
         })
-    }).collect();
+        .collect();
 
-    for h in handles { h.join().unwrap(); }
+    for h in handles {
+        h.join().unwrap();
+    }
 
     assert_eq!(NUM_THREADS * INCREMENTS, *counter);
     println!("Success!");
